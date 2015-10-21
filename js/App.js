@@ -5,11 +5,14 @@ function AppViewModel() {
   self.movies = ko.observableArray();
   self.failure = ko.observable();
   self.errorMessage = ko.observable();
+  self.filterString = ko.observable();
 
 
   self.search = function() {
     // Search for the input, using omdbapi
-    $.getJSON( "http://omdbapi.com/?s=" + self.searchInput(), function( data ) {
+    $.getJSON( "http://omdbapi.com/?s=" +
+                  self.searchInput() + self.filterString(),
+                                              function( data ) {
 
       // If data was found, then map it to the movies array,
       //  otherwise set the error indicator and message
@@ -24,6 +27,21 @@ function AppViewModel() {
       }
 
     });
+  };
+
+  // Filter for all
+  self.filterAll = function() {
+    self.filterString('');
+  };
+
+  // Filter for movies
+  self.filterMovies = function() {
+    self.filterString('&type=movie');
+  };
+
+  // Filter for TV shows
+  self.filterTV = function() {
+    self.filterString('&type=series');
   };
 
 

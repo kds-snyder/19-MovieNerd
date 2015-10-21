@@ -24,31 +24,42 @@
     <p></p>
     <div class="container">
       <div class="input-group">
-      <input type="text" class="form-control" data-bind="value: searchInput" placeholder="Search for movie...">
-      <span class="input-group-btn">
-        <button class="btn btn-default" type="button" data-bind="click: search">Go!</button>
-      </span>
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button" data-bind="click: search">Go!</button>
+        </span>
+        <input type="text" class="form-control" data-bind="value: searchInput" placeholder="Search for movie or TV show...">
+        <span class="input-group-btn">
+          <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-default" data-bind="click: function() { filterAll(); }">All</button>
+            <button type="button" class="btn btn-default" data-bind="click: function() { filterMovies(); }">Movies</button>
+            <button type="button" class="btn btn-default" data-bind="click: function() { filterTV(); }">TV Shows</button>
+          </div>
+        </span>
     </div>
 
+    <button data-bind="click: function() { someFunction('all'); }"></button>
+
       <p></p>
       <p></p>
 
-      <!-- Display movies array -->
-      <div class="row" data-bind="foreach: movies">
-        <div class="col-sm-6 col-md-4 col-lg-3">
-          <div class="panel panel-default" >
-            <div class="panel-heading" data-bind="text: Title"></div>
-            <div class="panel-body text-center">
+      <!-- Display movies array if no failure occurred -->
+      <div data-bind="visible: !failure()">
+        <div class="row" data-bind="foreach: movies">
+          <div class="col-sm-6 col-md-4 col-lg-3">
+            <div class="panel panel-default" >
+              <div class="panel-heading" data-bind="text: Title"></div>
+              <div class="panel-body text-center">
                 <img height="175" width="125" data-bind="attr: {src: Poster} "/>
                 <p></p>
                 <p>Filmed in: <span data-bind="text: Year"></span> </p>
                 <a data-bind="attr: {href: 'http://www.imdb.com/title/' + imdbID() + '/'} ">Click to view details on IMDB</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+    </div>
 
-      <!-- Display error if it occurred -->
+      <!-- Display error message if failure occurred -->
       <div data-bind="visible: failure()">
         <h3><span class="label label-info" data-bind="text: errorMessage()"></span></h3>
       </div>
