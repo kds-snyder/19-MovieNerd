@@ -9,6 +9,8 @@
 
     <!-- Bootstrap -->
     <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootswatch CSS file -->
+    <link href="css/bootswatch.css" rel="stylesheet">
     <!-- Custom CSS file -->
     <link href="css/custom.css" rel="stylesheet">
 
@@ -20,22 +22,42 @@
     <![endif]-->
   </head>
   <body>
-    <p></p>
-    <p></p>
+
     <div class="container">
+      <!--Application title-->
+      <div class="jumbotron other-color">
+        <h1>Find Movies and TV Shows!</h1>
+      </div>
+
       <div class="input-group">
+        <!--Search button-->
         <span class="input-group-btn">
-          <button class="btn btn-default" type="button" data-bind="click: search">Go!</button>
+          <button class="btn btn-success" type="button" data-bind="click: search">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
         </span>
-        <input type="text" class="form-control" data-bind="value: searchInput" placeholder="Search for movie or TV show...">
-        <span class="input-group-btn">
-          <div class="btn-group" role="group" aria-label="...">
-            <button type="button" class="btn btn-default" data-bind="click: function() { filterAll(); }">All</button>
-            <button type="button" class="btn btn-default" data-bind="click: function() { filterMovies(); }">Movies</button>
-            <button type="button" class="btn btn-default" data-bind="click: function() { filterTV(); }">TV Shows</button>
-          </div>
-        </span>
-    </div>
+        <!--Filtering dropdown button-->
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+            <span data-bind="text: selectedFilterText"></span>
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li data-bind="click: function() { setFilter('All'); }">
+              <a href="javascript:void(0);">All</a>
+            </li>
+            <li data-bind="click: function() { setFilter('Movies'); }">
+              <a href="javascript:void(0);">Movies</a>
+            </li>
+            <li data-bind="click: function() { setFilter('TV Shows'); }">
+              <a href="javascript:void(0);">TV Shows</a>
+            </li>
+          </ul>
+        </div><!-- /btn-group -->
+        <!--Search box-->
+        <input type="text" class="form-control" aria-label="..." data-bind="value: searchInput" placeholder="Search for movie or TV show...">
+      </div><!-- /input-group -->
+
 
       <p></p>
       <p></p>
@@ -44,9 +66,9 @@
       <div data-bind="visible: !failure() && showMovies()">
         <div class="row" data-bind="foreach: movies">
           <div class="col-sm-6 col-md-4 col-lg-3">
-            <div class="panel panel-default" >
+            <div class="panel panel-primary" >
               <div class="panel-heading" data-bind="text: Title"></div>
-              <div class="panel-body text-center">
+              <div class="panel-body panel-primary text-center">
                 <img height="175" width="125" data-bind="attr: {src: Poster} "/>
                 <p></p>
                 <p>Filmed in: <span data-bind="text: Year"></span> </p>

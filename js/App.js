@@ -5,9 +5,9 @@ function AppViewModel() {
   self.movies = ko.observableArray();
   self.failure = ko.observable();
   self.errorMessage = ko.observable();
-  self.showMovies = ko.observable();
-  self.filterString = ko.observable('');
-  self.filteringTV = ko.observable();
+  self.showMovies = ko.observable(false);
+  self.filterSearchString = ko.observable('');
+  self.selectedFilterText = ko.observable('All');
 
 
   self.search = function() {
@@ -22,7 +22,7 @@ function AppViewModel() {
 
     // Search for the input, using omdbapi
     $.getJSON( "http://omdbapi.com/?s=" +
-                  self.searchInput() + self.filterString(),
+                  self.searchInput() + self.filterSearchString(),
                                               function( data ) {
 
       // If data was found, then map it to the movies array,
@@ -43,7 +43,7 @@ function AppViewModel() {
 
     // If filtering TV shows, search for episode data;
     //  it may not exist
-    if (self.filteringTV()) {
+    if (self.selectedFilterText() == 'tv shows') {
       $.getJSON( "http://omdbapi.com/?s=" +
                     self.searchInput() + '&type=episode',
                                                 function( data ) {
@@ -70,31 +70,26 @@ function AppViewModel() {
 
   };
 
-  // Filter for all
-  self.filterAll = function() {
-    self.filterString('');
-    self.filteringTV(false);
-    //$(this).addClass("active").siblings().removeClass("active");
-    //$(".btn-group > .btn").removeClass("active");
-    //$(this).addClass("active");
-  };
+  // Set filtering according to user selection
+  self.setFilter = function(filter) {
 
-  // Filter for movies
-  self.filterMovies = function() {
-    self.filterString('&type=movie');
-    self.filteringTV(false);
-    //$(this).addClass("active").siblings().removeClass("active");
-    //$(".btn-group > .btn").removeClass("active");
-    //$(this).addClass("active");
-  };
+    //self.selectedFilterText(filter.toLowerCase());
+    self.selectedFilterText(filter);
 
-  // Filter for TV shows
-  self.filterTV = function() {
-    self.filterString('&type=series');
-    self.filteringTV(true);
-    //$(this).addClass("active").siblings().removeClass("active");
-    //$(".btn-group > .btn").removeClass("active");
-    //$(this).addClass("active");
+    // Set string to add to search according to selected filter
+    switch(self.selectedFilterText()) {
+      case ('All'):
+        self.filterSearchString('');
+        break;
+      case ('Movies'):
+        self.filterSearchString('&type=movie');
+        break;
+      case ('TV Shows'):
+        self.filterSearchString('&type=series');
+        break;
+      default:
+        self.filterSearchString('');
+    }
   };
 
 
