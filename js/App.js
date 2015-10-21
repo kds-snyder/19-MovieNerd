@@ -5,11 +5,21 @@ function AppViewModel() {
   self.movies = ko.observableArray();
   self.failure = ko.observable();
   self.errorMessage = ko.observable();
+  self.showMovies = ko.observable();
   self.filterString = ko.observable('');
   self.filteringTV = ko.observable();
 
 
   self.search = function() {
+    // Search only if user entered text
+    // Set indicator to not show movies if search string is empty
+    if (self.searchInput().length == 0) {
+      self.failure(false);
+      self.errorMessage('');
+      self.showMovies(false);
+      return;
+    }
+
     // Search for the input, using omdbapi
     $.getJSON( "http://omdbapi.com/?s=" +
                   self.searchInput() + self.filterString(),
@@ -21,10 +31,12 @@ function AppViewModel() {
         ko.mapping.fromJS(data.Search, {}, self.movies);
         self.failure(false);
         self.errorMessage('');
+        self.showMovies(true);
       }
       else {
         self.failure(true);
         self.errorMessage(data.Error);
+        self.showMovies(false);
       }
 
     });
@@ -55,24 +67,34 @@ function AppViewModel() {
           }
       });
     }
+
   };
 
   // Filter for all
   self.filterAll = function() {
     self.filterString('');
     self.filteringTV(false);
+    //$(this).addClass("active").siblings().removeClass("active");
+    //$(".btn-group > .btn").removeClass("active");
+    //$(this).addClass("active");
   };
 
   // Filter for movies
   self.filterMovies = function() {
     self.filterString('&type=movie');
     self.filteringTV(false);
+    //$(this).addClass("active").siblings().removeClass("active");
+    //$(".btn-group > .btn").removeClass("active");
+    //$(this).addClass("active");
   };
 
   // Filter for TV shows
   self.filterTV = function() {
     self.filterString('&type=series');
     self.filteringTV(true);
+    //$(this).addClass("active").siblings().removeClass("active");
+    //$(".btn-group > .btn").removeClass("active");
+    //$(this).addClass("active");
   };
 
 
