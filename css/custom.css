@@ -1,6 +1,15 @@
-.panel-body {
-    height: 270px;
+body {
+  background-color: #FFF0FF;
 }
+
+.panel-body {
+    background: #E0E0EB;
+}
+
+.application-title {
+	background: pink
+}
+
 .other-color{
     background: pink
   }

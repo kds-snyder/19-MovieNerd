@@ -24,10 +24,10 @@
   <body>
 
     <div class="container">
-      <!--Application title-->
-      <div class="jumbotron other-color">
-        <h1>Find Movies and TV Shows!</h1>
-      </div>
+
+      <!-- application title -->
+    <h1 class="text-center application-title">Find Movies and TV Shows!
+    </h1><!-- end application title -->
 
       <div class="input-group">
         <!--Search button-->
@@ -69,10 +69,10 @@
             <div class="panel panel-primary" >
               <div class="panel-heading" data-bind="text: Title"></div>
               <div class="panel-body panel-primary text-center">
-                <img height="175" width="125" data-bind="attr: {src: Poster} "/>
+                <img height="200" width="175" data-bind="attr: {src: Poster} "/>
                 <p></p>
                 <p>Filmed in: <span data-bind="text: Year"></span> </p>
-                <a data-bind="attr: {href: 'http://www.imdb.com/title/' + imdbID() + '/'} ">Click to view details on IMDB</a>
+                <a data-bind="attr: {href: 'http://www.imdb.com/title/' + imdbID() + '/'} ">View details on IMDB</a>
               </div>
             </div>
           </div>
